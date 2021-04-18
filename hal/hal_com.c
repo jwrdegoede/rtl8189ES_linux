@@ -7288,6 +7288,7 @@ void rtw_dump_cur_efuse(PADAPTER padapter)
 {
 	int i =0;
 	int mapsize =0;
+	const char* title;
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(padapter);
 
 	EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_EFUSE_MAP_LEN , (void *)&mapsize, _FALSE);
@@ -7298,21 +7299,14 @@ void rtw_dump_cur_efuse(PADAPTER padapter)
 	}
 
 	if (hal_data->efuse_file_status == EFUSE_FILE_LOADED)
-		DBG_871X_LEVEL(_drv_always_, "EFUSE FILE\n");
+		title = "EFUSE FILE\n";
 	else
-		DBG_871X_LEVEL(_drv_always_, "HW EFUSE\n");
+		title = "HW EFUSE\n";
 
 #ifdef CONFIG_DEBUG
-	for (i = 0; i < mapsize; i++) {
-		if (i % 16 == 0)
-			DBG_871X_SEL_NL(RTW_DBGDUMP, "0x%03x: ", i);
-
-		DBG_871X_SEL(RTW_DBGDUMP, "%02X%s"
-			, hal_data->efuse_eeprom_data[i]
-			, ((i + 1) % 16 == 0) ? "\n" : (((i + 1) % 8 == 0) ? "    " : " ")
-		);
-	}
-	DBG_871X_SEL(RTW_DBGDUMP, "\n");
+	RTW_PRINT_DUMP(title, hal_data->efuse_eeprom_data, mapsize);
+#else
+	DBG_871X_LEVEL(_drv_always_, title);
 #endif
 }
 
