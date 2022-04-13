@@ -213,6 +213,14 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 #define RTW_ERR(fmt, arg...) DBG_871X_LEVEL(_drv_err_, fmt, ##arg)
 
 #undef RTW_PRINT_DUMP
+#if defined PLATFORM_LINUX
+#define RTW_PRINT_DUMP(_TitleString, _HexData, _HexDataLen)			\
+	do {\
+		_dbgdump("%s%s", DRIVER_PREFIX, _TitleString);			\
+		print_hex_dump(KERN_DEFAULT, DRIVER_PREFIX, DUMP_PREFIX_OFFSET, \
+			       16, 1, _HexData, _HexDataLen, false); \
+	} while (0)
+#else
 #define RTW_PRINT_DUMP(_TitleString, _HexData, _HexDataLen)			\
 	do {\
 		int __i;								\
@@ -226,6 +234,7 @@ extern void rtl871x_cedbg(const char *fmt, ...);
 		}								\
 		_dbgdump("\n"); 						\
 	} while (0)
+#endif
 
 #undef RTW_INFO_DUMP
 #define RTW_INFO_DUMP RTW_PRINT_DUMP
