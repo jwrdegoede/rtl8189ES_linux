@@ -1840,7 +1840,7 @@ int rtw_os_ndev_register(_adapter *adapter, const char *name)
 	if (rtnl_lock_needed)
 		ret = (register_netdev(ndev) == 0) ? _SUCCESS : _FAIL;
 	else
-		ret = (register_netdevice(ndev) == 0) ? _SUCCESS : _FAIL;
+		ret = (cfg80211_register_netdevice(ndev) == 0) ? _SUCCESS : _FAIL;
 
 	if (ret == _SUCCESS)
 		adapter->registered = 1;
@@ -1887,7 +1887,7 @@ void rtw_os_ndev_unregister(_adapter *adapter)
 		if (rtnl_lock_needed)
 			unregister_netdev(netdev);
 		else
-			unregister_netdevice(netdev);
+			cfg80211_unregister_netdevice(netdev);
 	}
 
 #if defined(CONFIG_IOCTL_CFG80211) && !defined(RTW_SINGLE_WIPHY)
