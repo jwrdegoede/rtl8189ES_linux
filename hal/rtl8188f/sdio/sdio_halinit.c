@@ -900,7 +900,8 @@ static u32 rtl8188fs_hal_init(PADAPTER padapter)
 	PHAL_DATA_TYPE pHalData;
 	struct pwrctrl_priv *pwrctrlpriv;
 	struct registry_priv *pregistrypriv;
-	struct sreset_priv *psrtpriv;
+        bool is_sreset_inprogress;
+
 	struct dvobj_priv *psdpriv = padapter->dvobj;
 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
 
@@ -912,7 +913,11 @@ static u32 rtl8188fs_hal_init(PADAPTER padapter)
 	u32 u4Tmp;
 
 	pHalData = GET_HAL_DATA(padapter);
-	psrtpriv = &pHalData->srestpriv;
+#if defined(CONFIG_FWLPS_IN_IPS)
+	is_sreset_inprogress = &pHalData->srestpriv.silent_reset_inprogress;
+#else
+	is_sreset_inprogress = _FALSE;
+#endif
 	pwrctrlpriv = adapter_to_pwrctl(padapter);
 	pregistrypriv = &padapter->registrypriv;
 
@@ -948,7 +953,7 @@ static u32 rtl8188fs_hal_init(PADAPTER padapter)
 		return _SUCCESS;
 	}
 #elif defined(CONFIG_FWLPS_IN_IPS)
-	if (adapter_to_pwrctl(padapter)->bips_processing == _TRUE && psrtpriv->silent_reset_inprogress == _FALSE
+	if (adapter_to_pwrctl(padapter)->bips_processing == _TRUE && is_sreset_inprogress == _FALSE
 		&& adapter_to_pwrctl(padapter)->pre_ips_type == 0)
 	{
 		u32 start_time;
@@ -1372,10 +1377,15 @@ static void CardDisableRTL8188FSdio(PADAPTER padapter)
 static u32 rtl8188fs_hal_deinit(PADAPTER padapter)
 {
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(padapter);
-	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
+        bool is_sreset_inprogress;
         struct dvobj_priv *psdpriv = padapter->dvobj;
 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
 
+#if defined(CONFIG_FWLPS_IN_IPS)
+	is_sreset_inprogress = &pHalData->srestpriv.silent_reset_inprogress;
+#else
+	is_sreset_inprogress = _FALSE;
+#endif
 #ifdef CONFIG_MP_INCLUDED
 	if (padapter->registrypriv.mp_mode == 1)
 		MPT_DeInitAdapter(padapter);
@@ -1406,7 +1416,7 @@ static u32 rtl8188fs_hal_deinit(PADAPTER padapter)
 		}
 		else
 #elif defined(CONFIG_FWLPS_IN_IPS)
-		if (adapter_to_pwrctl(padapter)->bips_processing == _TRUE && psrtpriv->silent_reset_inprogress == _FALSE)
+		if (adapter_to_pwrctl(padapter)->bips_processing == _TRUE && is_sreset_inprogress == _FALSE)
 		{
 			if(padapter->netif_up == _TRUE)
 			{
