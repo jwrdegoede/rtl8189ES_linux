@@ -2510,7 +2510,7 @@ int rtw_change_ifname(_adapter *padapter, const char *ifname)
 	if (rtnl_lock_needed)
 		unregister_netdev(cur_pnetdev);
 	else
-		unregister_netdevice(cur_pnetdev);
+		cfg80211_unregister_netdevice(cur_pnetdev);
 
 	rereg_priv->old_pnetdev = cur_pnetdev;
 
@@ -2529,7 +2529,7 @@ int rtw_change_ifname(_adapter *padapter, const char *ifname)
 	if (rtnl_lock_needed)
 		ret = register_netdev(pnetdev);
 	else
-		ret = register_netdevice(pnetdev);
+		ret = cfg80211_register_netdevice(pnetdev);
 
 	if (ret != 0) {
 		goto error;
