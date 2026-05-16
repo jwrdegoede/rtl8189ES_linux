@@ -1013,7 +1013,7 @@ static s32 xmit_xmitframes(PADAPTER padapter, struct xmit_priv *pxmitpriv)
 	return _TRUE;
 }
 
-void rtl8188es_xmit_tasklet(void *priv)
+void rtl8188es_xmit_tasklet(unsigned long priv)
 {
 	int ret = _FALSE;
 	_adapter *padapter = (_adapter *)priv;
@@ -1502,7 +1502,7 @@ s32 rtl8188es_init_xmit_priv(PADAPTER padapter)
 
 #ifdef CONFIG_SDIO_TX_TASKLET
 	tasklet_init(&pxmitpriv->xmit_tasklet,
-		     (void *)rtl8188es_xmit_tasklet,
+		     rtl8188es_xmit_tasklet,
 		     (unsigned long)padapter);
 #else /* CONFIG_SDIO_TX_TASKLET */
 

@@ -19,7 +19,7 @@
 #include <recv_osdep.h>
 #include <rtl8188e_hal.h>
 
-static void rtl8188es_recv_tasklet(void *priv);
+static void rtl8188es_recv_tasklet(unsigned long priv);
 
 static s32 initrecvbuf(struct recv_buf *precvbuf, PADAPTER padapter)
 {
@@ -124,7 +124,7 @@ s32 rtl8188es_init_recv_priv(PADAPTER padapter)
 
 	/* 3 2. init tasklet */
 	tasklet_init(&precvpriv->recv_tasklet,
-		     (void *)rtl8188es_recv_tasklet,
+		     rtl8188es_recv_tasklet,
 		     (unsigned long)padapter);
 	goto exit;
 
@@ -194,7 +194,7 @@ void rtl8188es_free_recv_priv(PADAPTER padapter)
 }
 
 #ifdef CONFIG_SDIO_RX_COPY
-static void rtl8188es_recv_tasklet(void *priv)
+static void rtl8188es_recv_tasklet(unsigned long priv)
 {
 	PADAPTER			padapter;
 	PHAL_DATA_TYPE		pHalData;
@@ -343,7 +343,7 @@ static void rtl8188es_recv_tasklet(void *priv)
 
 }
 #else
-static void rtl8188es_recv_tasklet(void *priv)
+static void rtl8188es_recv_tasklet(unsigned long priv)
 {
 	PADAPTER				padapter;
 	PHAL_DATA_TYPE			pHalData;
