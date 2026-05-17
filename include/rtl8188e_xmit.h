@@ -252,7 +252,7 @@ void rtl8188e_cal_txdesc_chksum(struct tx_desc	*ptxdesc);
 	s32 rtl8188es_xmit_buf_handler(PADAPTER padapter);
 
 	#ifdef CONFIG_SDIO_TX_TASKLET
-		void rtl8188es_xmit_tasklet(void *priv);
+		void rtl8188es_xmit_tasklet(unsigned long priv);
 	#endif
 #endif
 
