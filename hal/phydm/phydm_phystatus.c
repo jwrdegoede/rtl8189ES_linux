@@ -68,7 +68,7 @@ u8 phydm_get_gid(struct dm_struct *dm, u8 *phy_status_inf)
 }
 #endif
 
-void phydm_rx_statistic_cal(struct dm_struct *dm,
+static void phydm_rx_statistic_cal(struct dm_struct *dm,
 			    struct phydm_phyinfo_struct *phy_info,
 			    u8 *phy_status_inf,
 			    struct phydm_perpkt_info_struct *pktinfo)
@@ -197,7 +197,7 @@ void phydm_reset_phystatus_statistic(struct dm_struct *dm)
 		       sizeof(struct phydm_phystatus_statistic));
 }
 
-void phydm_avg_phystatus_index(void *dm_void,
+static void phydm_avg_phystatus_index(void *dm_void,
 			       struct phydm_phyinfo_struct *phy_info,
 			       struct phydm_perpkt_info_struct *pktinfo)
 {
@@ -346,7 +346,7 @@ void phydm_avg_phystatus_index(void *dm_void,
 	}
 }
 
-void phydm_avg_phystatus_init(void *dm_void)
+static void phydm_avg_phystatus_init(void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	struct odm_phy_dbg_info *dbg_i = &dm->phy_dbg_info;
@@ -360,7 +360,7 @@ void phydm_avg_phystatus_init(void *dm_void)
 	odm_move_memory(dm, dbg_i->evm_hist_th, evm_hist_th, size);
 }
 
-u8 phydm_get_signal_quality(struct phydm_phyinfo_struct *phy_info,
+static u8 phydm_get_signal_quality(struct phydm_phyinfo_struct *phy_info,
 			    struct dm_struct *dm,
 			    struct phy_status_rpt_8192cd *phy_sts)
 {
@@ -383,7 +383,7 @@ u8 phydm_get_signal_quality(struct phydm_phyinfo_struct *phy_info,
 	return result;
 }
 
-u8 phydm_pwr_2_percent(s8 ant_power)
+static u8 phydm_pwr_2_percent(s8 ant_power)
 {
 	if ((ant_power <= -100) || ant_power >= 20)
 		return 0;
@@ -739,7 +739,7 @@ phydm_evm_2_percent(s8 value)
 	return (u8)ret_val;
 }
 
-s8 phydm_cck_rssi_convert(struct dm_struct *dm, u16 lna_idx, u8 vga_idx)
+static s8 phydm_cck_rssi_convert(struct dm_struct *dm, u16 lna_idx, u8 vga_idx)
 {
 	/*@phydm_get_cck_rssi_table_from_reg*/
 	return (dm->cck_lna_gain_table[lna_idx] - (vga_idx << 1));
@@ -780,7 +780,7 @@ void phydm_get_cck_rssi_table_from_reg(struct dm_struct *dm)
 		  dm->cck_lna_gain_table[6], dm->cck_lna_gain_table[7]);
 }
 
-s8 phydm_get_cck_rssi(void *dm_void, u8 lna_idx, u8 vga_idx)
+static s8 phydm_get_cck_rssi(void *dm_void, u8 lna_idx, u8 vga_idx)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	s8 rx_pow = 0;
@@ -891,7 +891,7 @@ s8 phydm_get_cck_rssi(void *dm_void, u8 lna_idx, u8 vga_idx)
 }
 
 #if (ODM_IC_11N_SERIES_SUPPORT)
-void phydm_phy_sts_n_parsing(struct dm_struct *dm,
+static void phydm_phy_sts_n_parsing(struct dm_struct *dm,
 			     struct phydm_phyinfo_struct *phy_info,
 			     u8 *phy_status_inf,
 			     struct phydm_perpkt_info_struct *pktinfo)
@@ -1325,7 +1325,7 @@ void phydm_reset_rssi_for_dm(struct dm_struct *dm, u8 station_id)
 
 #if (ODM_IC_11N_SERIES_SUPPORT || ODM_IC_11AC_SERIES_SUPPORT)
 
-s32 phydm_get_rssi_8814_ofdm(struct dm_struct *dm, u8 *rssi_in)
+static s32 phydm_get_rssi_8814_ofdm(struct dm_struct *dm, u8 *rssi_in)
 {
 	s32 rssi_avg;
 	u8 rx_count = 0;
@@ -1371,7 +1371,7 @@ s32 phydm_get_rssi_8814_ofdm(struct dm_struct *dm, u8 *rssi_in)
 	return rssi_avg;
 }
 
-void phydm_process_rssi_for_dm(struct dm_struct *dm,
+static void phydm_process_rssi_for_dm(struct dm_struct *dm,
 			       struct phydm_phyinfo_struct *phy_info,
 			       struct phydm_perpkt_info_struct *pktinfo)
 {

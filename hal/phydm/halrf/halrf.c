@@ -1019,7 +1019,7 @@ u64 halrf_cmn_info_get(void *dm_void, u32 cmn_info)
 	return return_value;
 }
 
-void halrf_supportability_init_mp(void *dm_void)
+static void halrf_supportability_init_mp(void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	struct _hal_rf_ *rf = &dm->rf_table;
@@ -1354,7 +1354,7 @@ void halrf_rf_k_connect_trigger(void *dm_void, boolean is_recovery,
 		halrf_dpk_reload(dm);
 }
 
-void halrf_dack_trigger(void *dm_void)
+static void halrf_dack_trigger(void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	struct _hal_rf_ *rf = &dm->rf_table;
@@ -1866,7 +1866,7 @@ void halrf_lck_trigger(void *dm_void)
 	}
 }
 
-void halrf_aac_check(struct dm_struct *dm)
+static void halrf_aac_check(struct dm_struct *dm)
 {
 	switch (dm->support_ic_type) {
 #if (RTL8821C_SUPPORT == 1)
@@ -1888,7 +1888,7 @@ void halrf_aac_check(struct dm_struct *dm)
 	}
 }
 
-void halrf_x2k_check(struct dm_struct *dm)
+static void halrf_x2k_check(struct dm_struct *dm)
 {
 
 	switch (dm->support_ic_type) {
@@ -2592,7 +2592,7 @@ halrf_config_rfk_with_header_file(void *dm_void, u32 config_type)
 	return result;
 }
 
-void halrf_txgapk_trigger(void *dm_void)
+static void halrf_txgapk_trigger(void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	struct _hal_rf_ *rf = &dm->rf_table;
