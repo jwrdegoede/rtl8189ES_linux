@@ -519,7 +519,7 @@ ssize_t proc_set_led_config(struct file *file, const char __user *buffer, size_t
 #endif /* CONFIG_RTW_LED */
 
 #ifdef CONFIG_AP_MODE
-int proc_get_aid_status(struct seq_file *m, void *v)
+static int proc_get_aid_status(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -529,7 +529,7 @@ int proc_get_aid_status(struct seq_file *m, void *v)
 	return 0;
 }
 
-ssize_t proc_set_aid_status(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_aid_status(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *dev = data;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -562,7 +562,7 @@ ssize_t proc_set_aid_status(struct file *file, const char __user *buffer, size_t
 	return count;
 }
 
-int proc_get_ap_isolate(struct seq_file *m, void *v)
+static int proc_get_ap_isolate(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -572,7 +572,7 @@ int proc_get_ap_isolate(struct seq_file *m, void *v)
 	return 0;
 }
 
-ssize_t proc_set_ap_isolate(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_ap_isolate(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *dev = data;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -1287,7 +1287,7 @@ static int proc_get_macaddr_acl(struct seq_file *m, void *v)
 	return 0;
 }
 
-ssize_t proc_set_macaddr_acl(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_macaddr_acl(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *dev = data;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -1745,7 +1745,7 @@ exit:
 #endif /* CONFIG_DFS_MASTER */
 
 #ifdef CONFIG_80211N_HT
-int proc_get_rx_ampdu_size_limit(struct seq_file *m, void *v)
+static int proc_get_rx_ampdu_size_limit(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -1755,7 +1755,7 @@ int proc_get_rx_ampdu_size_limit(struct seq_file *m, void *v)
 	return 0;
 }
 
-ssize_t proc_set_rx_ampdu_size_limit(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_rx_ampdu_size_limit(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *dev = data;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -2993,7 +2993,7 @@ int proc_get_mbid_cam_cache(struct seq_file *m, void *v)
 }
 #endif /* CONFIG_MBSSID_CAM */
 
-int proc_get_mac_addr(struct seq_file *m, void *v)
+static int proc_get_mac_addr(struct seq_file *m, void *v)
 {
 	struct net_device *dev = m->private;
 	_adapter *adapter = (_adapter *)rtw_netdev_priv(dev);
@@ -3374,7 +3374,7 @@ static ssize_t proc_set_napi_th(struct file *file, const char __user *buffer, si
 #endif /* CONFIG_RTW_NAPI_DYNAMIC */
 
 
-ssize_t proc_set_dynamic_agg_enable(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_dynamic_agg_enable(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *dev = data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
@@ -4537,7 +4537,7 @@ ssize_t proc_set_odm_adaptivity(struct file *file, const char __user *buffer, si
 static char *phydm_msg = NULL;
 #define PHYDM_MSG_LEN	80*24
 
-int proc_get_phydm_cmd(struct seq_file *m, void *v)
+static int proc_get_phydm_cmd(struct seq_file *m, void *v)
 {
 	struct net_device *netdev;
 	PADAPTER padapter;
@@ -4564,7 +4564,7 @@ int proc_get_phydm_cmd(struct seq_file *m, void *v)
 	return 0;
 }
 
-ssize_t proc_set_phydm_cmd(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
+static ssize_t proc_set_phydm_cmd(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)
 {
 	struct net_device *netdev;
 	PADAPTER padapter;
@@ -4682,7 +4682,7 @@ static const struct file_operations rtw_odm_proc_sseq_fops = {
 };
 #endif
 
-struct proc_dir_entry *rtw_odm_proc_init(struct net_device *dev)
+static struct proc_dir_entry *rtw_odm_proc_init(struct net_device *dev)
 {
 	struct proc_dir_entry *dir_odm = NULL;
 	struct proc_dir_entry *entry = NULL;
@@ -4725,7 +4725,7 @@ exit:
 	return dir_odm;
 }
 
-void rtw_odm_proc_deinit(_adapter	*adapter)
+static void rtw_odm_proc_deinit(_adapter	*adapter)
 {
 	struct proc_dir_entry *dir_odm = NULL;
 	int i;
