@@ -426,7 +426,7 @@ void rtw_set_supported_rate(u8 *SupportedRates, uint mode)
 	}
 }
 
-void rtw_filter_suppport_rateie(WLAN_BSSID_EX *pbss_network, u8 keep)
+static void rtw_filter_suppport_rateie(WLAN_BSSID_EX *pbss_network, u8 keep)
 {
 	u8 i, idx = 0, new_rate[NDIS_802_11_LENGTH_RATES_EX], *p;
 	int ret = 0;
@@ -1637,7 +1637,7 @@ void dump_ht_cap_ie_content(void *sel, const u8 *buf, u32 buf_len)
 		      , HT_SUP_MCS_SET_ARG(HT_CAP_ELE_SUP_MCS_SET(buf)));
 }
 
-void dump_ht_cap_ie(void *sel, const u8 *ie, u32 ie_len)
+static void dump_ht_cap_ie(void *sel, const u8 *ie, u32 ie_len)
 {
 	const u8 *ht_cap_ie;
 	sint ht_cap_ielen;
@@ -1656,7 +1656,7 @@ const char *const _ht_sc_offset_str[] = {
 	"SCB",
 };
 
-void dump_ht_op_ie_content(void *sel, const u8 *buf, u32 buf_len)
+static void dump_ht_op_ie_content(void *sel, const u8 *buf, u32 buf_len)
 {
 	if (buf_len != HT_OP_IE_LEN) {
 		RTW_PRINT_SEL(sel, "Invalid HT operation IE len:%d != %d\n", buf_len, HT_OP_IE_LEN);
@@ -1670,7 +1670,7 @@ void dump_ht_op_ie_content(void *sel, const u8 *buf, u32 buf_len)
 	);
 }
 
-void dump_ht_op_ie(void *sel, const u8 *ie, u32 ie_len)
+static void dump_ht_op_ie(void *sel, const u8 *ie, u32 ie_len)
 {
 	const u8 *ht_op_ie;
 	sint ht_op_ielen;
@@ -2698,7 +2698,7 @@ int ieee80211_get_hdrlen(u16 fc)
 	return hdrlen;
 }
 
-int rtw_get_cipher_info(struct wlan_network *pnetwork)
+static int rtw_get_cipher_info(struct wlan_network *pnetwork)
 {
 	u32 wpa_ielen;
 	unsigned char *pbuf;
