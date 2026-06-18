@@ -1298,7 +1298,7 @@ exit:
 	return bias;
 }
 
-void
+static void
 PHY_ScanOperationBackup8188E(
 		PADAPTER	Adapter,
 		u8		Operation
@@ -1326,7 +1326,7 @@ PHY_ScanOperationBackup8188E(
 	}
 #endif
 }
-void
+static void
 phy_SpurCalibration_8188E(
 		PADAPTER			Adapter
 )

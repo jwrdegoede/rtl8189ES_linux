@@ -605,12 +605,12 @@ static void _InitPageBoundary(PADAPTER padapter)
 
 }
 
-void _InitDriverInfoSize(PADAPTER padapter, u8 drvInfoSize)
+static void _InitDriverInfoSize(PADAPTER padapter, u8 drvInfoSize)
 {
 	rtw_write8(padapter, REG_RX_DRVINFO_SZ, drvInfoSize);
 }
 
-void _InitNetworkType(PADAPTER padapter)
+static void _InitNetworkType(PADAPTER padapter)
 {
 	u32 value32;
 
@@ -623,7 +623,7 @@ void _InitNetworkType(PADAPTER padapter)
 	rtw_write32(padapter, REG_CR, value32);
 }
 
-void _InitWMACSetting(PADAPTER padapter)
+static void _InitWMACSetting(PADAPTER padapter)
 {
 	u16 value16;
 	HAL_DATA_TYPE *pHalData = GET_HAL_DATA(padapter);
@@ -650,7 +650,7 @@ void _InitWMACSetting(PADAPTER padapter)
 
 }
 
-void _InitAdaptiveCtrl(PADAPTER padapter)
+static void _InitAdaptiveCtrl(PADAPTER padapter)
 {
 	u16	value16;
 	u32	value32;
@@ -675,7 +675,7 @@ void _InitAdaptiveCtrl(PADAPTER padapter)
 	rtw_write16(padapter, REG_RETRY_LIMIT, value16);
 }
 
-void _InitEDCA(PADAPTER padapter)
+static void _InitEDCA(PADAPTER padapter)
 {
 	/* Set Spec SIFS (used in NAV) */
 	rtw_write16(padapter, REG_SPEC_SIFS, 0x100a);
@@ -694,7 +694,7 @@ void _InitEDCA(PADAPTER padapter)
 	rtw_write32(padapter, REG_EDCA_VO_PARAM, 0x002FA226);
 }
 
-void _InitRetryFunction(PADAPTER padapter)
+static void _InitRetryFunction(PADAPTER padapter)
 {
 	u8	value8;
 
@@ -734,7 +734,7 @@ static void HalRxAggr8188ESdio(PADAPTER padapter)
 #endif
 }
 
-void sdio_AggSettingRxUpdate(PADAPTER padapter)
+static void sdio_AggSettingRxUpdate(PADAPTER padapter)
 {
 #if 1
 	/* HAL_DATA_TYPE *pHalData; */
@@ -771,7 +771,7 @@ void sdio_AggSettingRxUpdate(PADAPTER padapter)
 #endif
 }
 
-void _initSdioAggregationSetting(PADAPTER padapter)
+static void _initSdioAggregationSetting(PADAPTER padapter)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
 
@@ -784,14 +784,14 @@ void _initSdioAggregationSetting(PADAPTER padapter)
 
 }
 
-void _InitBeaconMaxError(PADAPTER padapter, BOOLEAN InfraMode)
+static void _InitBeaconMaxError(PADAPTER padapter, BOOLEAN InfraMode)
 {
 #ifdef CONFIG_ADHOC_WORKAROUND_SETTING
 	rtw_write8(padapter, REG_BCN_MAX_ERR, 0xFF);
 #endif
 }
 
-void _InitInterrupt(PADAPTER padapter)
+static void _InitInterrupt(PADAPTER padapter)
 {
 
 	/* HISR write one to clear */
@@ -818,7 +818,7 @@ void _InitInterrupt(PADAPTER padapter)
 
 }
 
-void _InitRDGSetting(PADAPTER padapter)
+static void _InitRDGSetting(PADAPTER padapter)
 {
 	rtw_write8(padapter, REG_RD_CTRL, 0xFF);
 	rtw_write16(padapter, REG_RD_NAV_NXT, 0x200);
@@ -1671,7 +1671,7 @@ static void GetHwReg8188ES(PADAPTER padapter, u8 variable, u8 *val)
  *	Description:
  *		Query setting of specified variable.
  *   */
-u8
+static u8
 GetHalDefVar8188ESDIO(
 		PADAPTER				Adapter,
 		HAL_DEF_VARIABLE		eVariable,
@@ -1708,7 +1708,7 @@ GetHalDefVar8188ESDIO(
  *	Description:
  *		Change default setting of specified variable.
  *   */
-u8
+static u8
 SetHalDefVar8188ESDIO(
 		PADAPTER				Adapter,
 		HAL_DEF_VARIABLE		eVariable,

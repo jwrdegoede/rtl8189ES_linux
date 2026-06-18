@@ -426,7 +426,7 @@ void rtl8188es_fill_default_txdesc(
  *		pxmitframe	xmitframe
  *		pbuf		where to fill tx desc
  */
-void rtl8188es_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
+static void rtl8188es_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
 {
 	struct tx_desc *pdesc = (struct tx_desc *)pbuf;
 	_adapter *adapter = pxmitframe->padapter;
@@ -1287,7 +1287,7 @@ static s32 xmit_xmitframes(PADAPTER padapter, struct xmit_priv *pxmitpriv)
  *	_SUCCESS	ok
  *	_FAIL		something error
  */
-s32 rtl8188es_xmit_handler(PADAPTER padapter)
+static s32 rtl8188es_xmit_handler(PADAPTER padapter)
 {
 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv ;
 	s32 ret;

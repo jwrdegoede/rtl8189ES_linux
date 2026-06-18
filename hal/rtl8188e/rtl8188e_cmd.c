@@ -142,7 +142,7 @@ exit:
 	return ret;
 }
 
-u8 rtl8192c_h2c_msg_hdl(_adapter *padapter, unsigned char *pbuf)
+static u8 rtl8192c_h2c_msg_hdl(_adapter *padapter, unsigned char *pbuf)
 {
 	u8 ElementID, CmdLen;
 	u8 *pCmdBuffer;
