@@ -813,7 +813,7 @@ PHY_SetTxPowerLevel8188F(
 }
 
 /* A workaround to eliminate the 2400MHz, 2440MHz, 2480MHz spur of 8188F. (Asked by David.) */
-void
+static void
 phy_SpurCalibration_8188F(
 		PADAPTER					pAdapter,
 		u8						ToChannel,
@@ -983,7 +983,7 @@ phy_SpurCalibration_8188F(
 
 }
 
-void
+static void
 phy_SetRegBW_8188F(
 		PADAPTER		Adapter,
 	enum channel_width	CurrentBW
@@ -1013,7 +1013,7 @@ phy_SetRegBW_8188F(
 	}
 }
 
-u8
+static u8
 phy_GetSecondaryChnl_8188F(
 		PADAPTER	Adapter
 )
@@ -1049,7 +1049,7 @@ phy_GetSecondaryChnl_8188F(
 	return (SCSettingOf40 << 4) | SCSettingOf20;
 }
 
-void
+static void
 phy_PostSetBwMode8188F(
 		PADAPTER	Adapter
 )
@@ -1128,7 +1128,7 @@ phy_PostSetBwMode8188F(
 	PHY_RF6052SetBandwidth8188F(Adapter, pHalData->current_channel_bw);
 }
 
-void
+static void
 phy_SwChnl8188F(
 		PADAPTER					pAdapter
 )
@@ -1154,7 +1154,7 @@ phy_SwChnl8188F(
 	phy_SpurCalibration_8188F(pAdapter, channelToSW, 0x16);
 }
 
-void
+static void
 phy_SwChnlAndSetBwMode8188F(
 	PADAPTER		Adapter
 )
@@ -1196,7 +1196,7 @@ phy_SwChnlAndSetBwMode8188F(
 	rtw_hal_set_tx_power_level(Adapter, pHalData->current_channel);
 }
 
-void
+static void
 PHY_HandleSwChnlAndSetBW8188F(
 		PADAPTER			Adapter,
 		BOOLEAN				bSwitchChannel,

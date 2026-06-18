@@ -369,12 +369,12 @@ static void _InitTransferPageSize(PADAPTER padapter)
 	rtw_write8(padapter, REG_PBP, value8);
 }
 
-void _InitDriverInfoSize(PADAPTER padapter, u8 drvInfoSize)
+static void _InitDriverInfoSize(PADAPTER padapter, u8 drvInfoSize)
 {
 	rtw_write8(padapter, REG_RX_DRVINFO_SZ, drvInfoSize);
 }
 
-void _InitNetworkType(PADAPTER padapter)
+static void _InitNetworkType(PADAPTER padapter)
 {
 	u32 value32;
 
@@ -387,7 +387,7 @@ void _InitNetworkType(PADAPTER padapter)
 	rtw_write32(padapter, REG_CR, value32);
 }
 
-void _InitWMACSetting(PADAPTER padapter)
+static void _InitWMACSetting(PADAPTER padapter)
 {
 	PHAL_DATA_TYPE pHalData;
 	u16 value16;
@@ -426,7 +426,7 @@ void _InitWMACSetting(PADAPTER padapter)
 	rtw_write16(padapter, REG_RXFLTMAP0, value16);
 }
 
-void _InitAdaptiveCtrl(PADAPTER padapter)
+static void _InitAdaptiveCtrl(PADAPTER padapter)
 {
 	u16	value16;
 	u32	value32;
@@ -454,7 +454,7 @@ void _InitAdaptiveCtrl(PADAPTER padapter)
 	rtw_write16(padapter, REG_RETRY_LIMIT, value16);
 }
 
-void _InitEDCA(PADAPTER padapter)
+static void _InitEDCA(PADAPTER padapter)
 {
 	/* Set Spec SIFS (used in NAV) */
 	rtw_write16(padapter, REG_SPEC_SIFS, 0x100a);
@@ -476,7 +476,7 @@ void _InitEDCA(PADAPTER padapter)
 	rtw_write8(padapter, REG_USTIME_TSF_8188F, 0x28);
 }
 
-void _InitRetryFunction(PADAPTER padapter)
+static void _InitRetryFunction(PADAPTER padapter)
 {
 	u8	value8;
 
@@ -505,7 +505,7 @@ static void HalRxAggr8188FSdio(PADAPTER padapter)
 	rtw_write16(padapter, REG_RXDMA_AGG_PG_TH, (dma_time_th << 8) | dma_len_th);
 }
 
-void sdio_AggSettingRxUpdate(PADAPTER padapter)
+static void sdio_AggSettingRxUpdate(PADAPTER padapter)
 {
 	HAL_DATA_TYPE *pHalData;
 	u8 valueDMA;
@@ -525,7 +525,7 @@ void sdio_AggSettingRxUpdate(PADAPTER padapter)
 	rtw_write8(padapter, REG_RXDMA_MODE_CTRL_8188F, valueRxAggCtrl);/* RxAggLowThresh = 4*1K */
 }
 
-void _initSdioAggregationSetting(PADAPTER padapter)
+static void _initSdioAggregationSetting(PADAPTER padapter)
 {
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(padapter);
 
@@ -564,7 +564,7 @@ static void _RXAggrSwitch(PADAPTER padapter, u8 enable)
 }
 #endif
 
-void _InitInterrupt(PADAPTER padapter)
+static void _InitInterrupt(PADAPTER padapter)
 {
 	/*  */
 	/* Initialize and enable SDIO Host Interrupt. */
@@ -577,7 +577,7 @@ void _InitInterrupt(PADAPTER padapter)
 	InitSysInterrupt8188FSdio(padapter);
 }
 
-void _InitRDGSetting(PADAPTER padapter)
+static void _InitRDGSetting(PADAPTER padapter)
 {
 	rtw_write8(padapter, REG_RD_CTRL, 0xFF);
 	rtw_write16(padapter, REG_RD_NAV_NXT, 0x200);
@@ -1353,7 +1353,7 @@ exit:
  * If variable not handled here,
  * some variables will be processed in SetHwReg8188F()
  */
-u8 SetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
+static u8 SetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
 {
 	PHAL_DATA_TYPE pHalData;
 	u8 ret = _SUCCESS;
@@ -1409,7 +1409,7 @@ u8 SetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
  * If variable not handled here,
  * some variables will be processed in GetHwReg8188F()
  */
-void GetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
+static void GetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
 {
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(padapter);
 
@@ -1435,7 +1435,7 @@ void GetHwReg8188FS(PADAPTER padapter, u8 variable, u8 *val)
  *	Description:
  *		Query setting of specified variable.
  *   */
-u8
+static u8
 GetHalDefVar8188FSDIO(
 		PADAPTER				Adapter,
 		HAL_DEF_VARIABLE		eVariable,
@@ -1469,7 +1469,7 @@ GetHalDefVar8188FSDIO(
  *	Description:
  *		Change default setting of specified variable.
  *   */
-u8
+static u8
 SetHalDefVar8188FSDIO(
 		PADAPTER				Adapter,
 		HAL_DEF_VARIABLE		eVariable,

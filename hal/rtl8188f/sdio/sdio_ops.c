@@ -160,7 +160,7 @@ static u32 _cvrt2ftaddr(const u32 addr, u8 *pdeviceId, u16 *poffset)
 }
 
 
-u8 sdio_read8(struct intf_hdl *pintfhdl, u32 addr)
+static u8 sdio_read8(struct intf_hdl *pintfhdl, u32 addr)
 {
 	u32 ftaddr;
 	u8 device_id;
@@ -181,7 +181,7 @@ u8 sdio_read8(struct intf_hdl *pintfhdl, u32 addr)
 	return val;
 }
 
-u16 sdio_read16(struct intf_hdl *pintfhdl, u32 addr)
+static u16 sdio_read16(struct intf_hdl *pintfhdl, u32 addr)
 {
 	u32 ftaddr;
 	u8 device_id;
@@ -204,7 +204,7 @@ u16 sdio_read16(struct intf_hdl *pintfhdl, u32 addr)
 	return val;
 }
 
-u32 sdio_read32(struct intf_hdl *pintfhdl, u32 addr)
+static u32 sdio_read32(struct intf_hdl *pintfhdl, u32 addr)
 {
 	PADAPTER padapter;
 	u8 bMacPwrCtrlOn;
@@ -280,7 +280,7 @@ u32 sdio_read32(struct intf_hdl *pintfhdl, u32 addr)
 	return val;
 }
 
-s32 sdio_readN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
+static s32 sdio_readN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
 {
 	PADAPTER padapter;
 	u8 bMacPwrCtrlOn;
@@ -341,7 +341,7 @@ s32 sdio_readN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
 	return err;
 }
 
-s32 sdio_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
+static s32 sdio_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
 {
 	u32 ftaddr;
 	u8 device_id;
@@ -363,7 +363,7 @@ s32 sdio_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
 	return err;
 }
 
-s32 sdio_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
+static s32 sdio_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
 {
 	u32 ftaddr;
 	u8 device_id;
@@ -385,7 +385,7 @@ s32 sdio_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
 	return err;
 }
 
-s32 sdio_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
+static s32 sdio_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
 {
 	PADAPTER padapter;
 	u8 bMacPwrCtrlOn;
@@ -462,7 +462,7 @@ s32 sdio_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
 	return err;
 }
 
-s32 sdio_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
+static s32 sdio_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
 {
 	PADAPTER padapter;
 	u8 bMacPwrCtrlOn;
@@ -526,7 +526,7 @@ s32 sdio_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pbuf)
 	return err;
 }
 
-u8 sdio_f0_read8(struct intf_hdl *pintfhdl, u32 addr)
+static u8 sdio_f0_read8(struct intf_hdl *pintfhdl, u32 addr)
 {
 	u32 ftaddr;
 	u8 val;
@@ -537,7 +537,7 @@ u8 sdio_f0_read8(struct intf_hdl *pintfhdl, u32 addr)
 	return val;
 }
 
-void sdio_read_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
+static void sdio_read_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
 {
 	s32 err;
 
@@ -546,7 +546,7 @@ void sdio_read_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
 
 }
 
-void sdio_write_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
+static void sdio_write_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
 {
 
 	sdio_writeN(pintfhdl, addr, cnt, wmem);
@@ -870,7 +870,7 @@ u8 SdioLocalCmd52Read1Byte(PADAPTER padapter, u32 addr)
 	return val;
 }
 
-u16 SdioLocalCmd52Read2Byte(PADAPTER padapter, u32 addr)
+static u16 SdioLocalCmd52Read2Byte(PADAPTER padapter, u32 addr)
 {
 	u16 val = 0;
 	struct intf_hdl *pintfhdl = &padapter->iopriv.intf;
@@ -883,7 +883,7 @@ u16 SdioLocalCmd52Read2Byte(PADAPTER padapter, u32 addr)
 	return val;
 }
 
-u32 SdioLocalCmd52Read4Byte(PADAPTER padapter, u32 addr)
+static u32 SdioLocalCmd52Read4Byte(PADAPTER padapter, u32 addr)
 {
 	u32 val = 0;
 	struct intf_hdl *pintfhdl = &padapter->iopriv.intf;
@@ -896,7 +896,7 @@ u32 SdioLocalCmd52Read4Byte(PADAPTER padapter, u32 addr)
 	return val;
 }
 
-u32 SdioLocalCmd53Read4Byte(PADAPTER padapter, u32 addr)
+static u32 SdioLocalCmd53Read4Byte(PADAPTER padapter, u32 addr)
 {
 
 	u8 bMacPwrCtrlOn;
@@ -928,7 +928,7 @@ void SdioLocalCmd52Write1Byte(PADAPTER padapter, u32 addr, u8 v)
 	sd_cmd52_write(pintfhdl, addr, 1, &v);
 }
 
-void SdioLocalCmd52Write2Byte(PADAPTER padapter, u32 addr, u16 v)
+static void SdioLocalCmd52Write2Byte(PADAPTER padapter, u32 addr, u16 v)
 {
 	struct intf_hdl *pintfhdl = &padapter->iopriv.intf;
 
@@ -937,7 +937,7 @@ void SdioLocalCmd52Write2Byte(PADAPTER padapter, u32 addr, u16 v)
 	sd_cmd52_write(pintfhdl, addr, 2, (u8 *)&v);
 }
 
-void SdioLocalCmd52Write4Byte(PADAPTER padapter, u32 addr, u32 v)
+static void SdioLocalCmd52Write4Byte(PADAPTER padapter, u32 addr, u32 v)
 {
 	struct intf_hdl *pintfhdl = &padapter->iopriv.intf;
 	HalSdioGetCmdAddr8188FSdio(padapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
@@ -1113,7 +1113,7 @@ void ClearInterrupt8188FSdio(PADAPTER padapter)
  *
  *	Created by Roger, 2011.02.11.
  *   */
-void ClearSysInterrupt8188FSdio(PADAPTER padapter)
+static void ClearSysInterrupt8188FSdio(PADAPTER padapter)
 {
 	PHAL_DATA_TYPE pHalData;
 	u32 clear;
@@ -1229,7 +1229,7 @@ void DisableInterruptButCpwm28188FSdio(PADAPTER padapter)
  *
  *	Created by Roger, 2011.02.11.
  *   */
-void UpdateInterruptMask8188FSdio(PADAPTER padapter, u32 AddMSR, u32 RemoveMSR)
+static void UpdateInterruptMask8188FSdio(PADAPTER padapter, u32 AddMSR, u32 RemoveMSR)
 {
 	HAL_DATA_TYPE *pHalData;
 
@@ -1504,7 +1504,7 @@ static void restore_himr_8188f_sdio(_adapter *adapter)
 }
 #endif /* SD_INT_HDL_DIS_HIMR_RX_REQ */
 
-void sd_recv(PADAPTER padapter)
+static void sd_recv(PADAPTER padapter)
 {
 	PHAL_DATA_TYPE phal = GET_HAL_DATA(padapter);
 	struct recv_buf *precvbuf;

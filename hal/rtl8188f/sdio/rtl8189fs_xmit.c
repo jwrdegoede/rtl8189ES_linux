@@ -517,7 +517,7 @@ static s32 xmit_xmitframes(PADAPTER padapter, struct xmit_priv *pxmitpriv)
  *	_SUCCESS	ok
  *	_FAIL		something error
  */
-s32 rtl8188fs_xmit_handler(PADAPTER padapter)
+static s32 rtl8188fs_xmit_handler(PADAPTER padapter)
 {
 	struct xmit_priv *pxmitpriv;
 	s32 ret;
