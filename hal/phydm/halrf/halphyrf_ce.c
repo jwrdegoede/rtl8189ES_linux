@@ -25,6 +25,7 @@
 
 #include "mp_precomp.h"
 #include "phydm_precomp.h"
+#include "halphyrf_win.h"
 
 #define CALCULATE_SWINGTALBE_OFFSET(_offset, _direction, _size, _delta_thermal)\
 	do {                                                                   \
@@ -164,7 +165,7 @@ void odm_clear_txpowertracking_state(void *dm_void)
 	cali_info->modify_tx_agc_value_ofdm = 0;
 }
 
-void odm_get_tracking_table(void *dm_void, u8 thermal_value, u8 delta)
+static void odm_get_tracking_table(void *dm_void, u8 thermal_value, u8 delta)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	struct dm_rf_calibration_struct *cali_info = &dm->rf_calibrate_info;
@@ -364,7 +365,7 @@ void odm_get_tracking_table(void *dm_void, u8 thermal_value, u8 delta)
 	}
 }
 
-void odm_pwrtrk_method(void *dm_void)
+static void odm_pwrtrk_method(void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
 	u8 p, idxforchnl = 0;

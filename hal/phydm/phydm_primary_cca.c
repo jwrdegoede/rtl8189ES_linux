@@ -61,7 +61,7 @@ void phydm_write_dynamic_cca(
 		  ((curr_mf_state == MF_LSC) ? "L" : "U")), curr_mf_state);
 }
 
-void phydm_primary_cca_reset(
+static void phydm_primary_cca_reset(
 	void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
@@ -73,7 +73,7 @@ void phydm_primary_cca_reset(
 	phydm_write_dynamic_cca(dm, MF_USC_LSC);
 }
 
-void phydm_primary_cca_11n(
+static void phydm_primary_cca_11n(
 	void *dm_void)
 {
 	struct dm_struct *dm = (struct dm_struct *)dm_void;
