@@ -628,7 +628,7 @@ static inline void hal_init_pg_txpwr_info_5g(_adapter *adapter, TxPowerInfo5G *p
 #define LOAD_PG_TXPWR_WARN_COND(_txpwr_src) (_txpwr_src > PG_TXPWR_SRC_PG_DATA)
 #endif
 
-u16 hal_load_pg_txpwr_info_path_2g(
+static u16 hal_load_pg_txpwr_info_path_2g(
 	_adapter *adapter,
 	TxPowerInfo24G	*pwr_info,
 	u32 path,
@@ -756,7 +756,7 @@ exit:
 	return offset;
 }
 
-u16 hal_load_pg_txpwr_info_path_5g(
+static u16 hal_load_pg_txpwr_info_path_5g(
 	_adapter *adapter,
 	TxPowerInfo5G	*pwr_info,
 	u32 path,
@@ -915,7 +915,7 @@ exit:
 	return offset;
 }
 
-void hal_load_pg_txpwr_info(
+static void hal_load_pg_txpwr_info(
 	_adapter *adapter,
 	TxPowerInfo24G *pwr_info_2g,
 	TxPowerInfo5G *pwr_info_5g,
@@ -1335,7 +1335,7 @@ void dump_hal_txpwr_info_5g(void *sel, _adapter *adapter, u8 rfpath_num, u8 max_
 *
 * Return dBm or -1 for undefined
 */
-s8 rtw_regsty_get_target_tx_power(
+static s8 rtw_regsty_get_target_tx_power(
 		PADAPTER		Adapter,
 		u8				Band,
 		u8				RfPath,
@@ -1379,7 +1379,7 @@ s8 rtw_regsty_get_target_tx_power(
 	return value;
 }
 
-bool rtw_regsty_chk_target_tx_power_valid(_adapter *adapter)
+static bool rtw_regsty_chk_target_tx_power_valid(_adapter *adapter)
 {
 	struct hal_spec_t *hal_spec = GET_HAL_SPEC(adapter);
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(adapter);
@@ -1459,7 +1459,7 @@ PHY_GetTxPowerByRateBase(
 	return value;
 }
 
-void
+static void
 phy_SetTxPowerByRateBase(
 		PADAPTER		Adapter,
 		u8				Band,
@@ -1576,7 +1576,7 @@ static void phy_txpwr_by_rate_chk_for_path_dup(_adapter *adapter)
 	}
 }
 
-void
+static void
 phy_StoreTxPowerByRateBase(
 		PADAPTER	pAdapter
 )
@@ -1982,7 +1982,7 @@ PHY_GetRateValuesOfTxPowerByRate(
 	};
 }
 
-void
+static void
 PHY_StoreTxPowerByRateNew(
 		PADAPTER	pAdapter,
 		u32			Band,
@@ -2050,7 +2050,7 @@ phy_store_tx_power_by_rate(
 
 }
 
-void
+static void
 phy_ConvertTxPowerByRateInDbmToRelativeValues(
 		PADAPTER	pAdapter
 )
@@ -2180,7 +2180,7 @@ exit:
 	return;
 }
 
-bool phy_get_ch_idx(u8 ch, u8 *ch_idx)
+static bool phy_get_ch_idx(u8 ch, u8 *ch_idx)
 {
 	u8  i = 0;
 	BOOLEAN bIn24G = _TRUE;
@@ -3586,7 +3586,7 @@ static void phy_txpwr_lmt_post_hdl(_adapter *adapter)
 	_exit_critical_mutex(&rfctl->txpwr_lmt_mutex, &irqL);
 }
 
-BOOLEAN
+static BOOLEAN
 GetS1ByteIntegerFromStringInDecimal(
 			char	*str,
 			s8		*val
@@ -4307,7 +4307,7 @@ phy_ConfigBBWithParaFile(
 	return rtStatus;
 }
 
-void
+static void
 phy_DecryptBBPgParaFile(
 	PADAPTER		Adapter,
 	char			*buffer
@@ -4349,7 +4349,7 @@ phy_DecryptBBPgParaFile(
 #define DBG_TXPWR_BY_RATE_FILE_PARSE 0
 #endif
 
-int
+static int
 phy_ParseBBPgParaFile(
 	PADAPTER		Adapter,
 	char			*buffer
@@ -4781,7 +4781,7 @@ PHY_ConfigRFWithParaFile(
 	return rtStatus;
 }
 
-void
+static void
 initDeltaSwingIndexTables(
 	PADAPTER	Adapter,
 	char		*Band,
