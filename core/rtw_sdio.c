@@ -16,6 +16,7 @@
 
 #include <drv_types.h>		/* struct dvobj_priv and etc. */
 #include <drv_types_sdio.h>	/* RTW_SDIO_ADDR_CMD52_GEN */
+#include "rtw_sdio.h"
 
 /*
  * Description:

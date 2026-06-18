@@ -202,7 +202,7 @@ int ips_leave(_adapter *padapter)
 	int rtw_hw_resume(_adapter *padapter);
 #endif
 
-bool rtw_pwr_unassociated_idle(_adapter *adapter)
+static bool rtw_pwr_unassociated_idle(_adapter *adapter)
 {
 	u8 i;
 	_adapter *iface;
@@ -402,7 +402,7 @@ exit:
 	return;
 }
 
-void pwr_state_check_handler(void *ctx)
+static void pwr_state_check_handler(void *ctx)
 {
 	_adapter *padapter = (_adapter *)ctx;
 	rtw_ps_cmd(padapter);
@@ -528,7 +528,7 @@ void	traffic_check_for_leave_lps(PADAPTER padapter, u8 tx, u32 tx_packets)
 #define LPS_CPWM_TIMEOUT_MS	10 /*ms*/
 #define LPS_RPWM_RETRY_CNT		3
 
-u8 rtw_cpwm_polling(_adapter *adapter, u8 rpwm, u8 cpwm_orig)
+static u8 rtw_cpwm_polling(_adapter *adapter, u8 rpwm, u8 cpwm_orig)
 {
 	u8 rst = _FAIL;
 	u8 cpwm_now = 0;
@@ -692,7 +692,7 @@ u8 rtw_set_rpwm(PADAPTER padapter, u8 pslv)
 	return rpwm;
 }
 
-u8 PS_RDY_CHECK(_adapter *padapter)
+static u8 PS_RDY_CHECK(_adapter *padapter)
 {
 	struct pwrctrl_priv	*pwrpriv = adapter_to_pwrctl(padapter);
 	struct mlme_priv	*pmlmepriv = &(padapter->mlmepriv);

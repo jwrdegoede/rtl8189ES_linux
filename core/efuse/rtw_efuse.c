@@ -56,7 +56,7 @@ BOOLEAN rtw_file_efuse_IsMasked(PADAPTER pAdapter, u16 Offset, u8 *maskbuf)
 
 	return (result > 0) ? 0 : 1;
 }
-BOOLEAN efuse_IsBT_Masked(PADAPTER pAdapter, u16 Offset)
+static BOOLEAN efuse_IsBT_Masked(PADAPTER pAdapter, u16 Offset)
 {
 	PHAL_DATA_TYPE pHalData = GET_HAL_DATA(pAdapter);
 
@@ -917,7 +917,7 @@ out_free_buffer:
 		rtw_mfree((u8 *)eFuseWord, EFUSE_MAX_SECTION_NUM * (EFUSE_MAX_WORD_UNIT * 2));
 }
 
-void efuse_PreUpdateAction(
+static void efuse_PreUpdateAction(
 	PADAPTER	pAdapter,
 	u32			*BackupRegs)
 {
@@ -946,7 +946,7 @@ void efuse_PreUpdateAction(
 }
 
 
-void efuse_PostUpdateAction(
+static void efuse_PostUpdateAction(
 	PADAPTER	pAdapter,
 	u32			*BackupRegs)
 {
