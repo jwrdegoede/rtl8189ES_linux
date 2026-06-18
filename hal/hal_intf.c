@@ -266,7 +266,7 @@ void dump_hal_trx_mode(void *sel, _adapter *adapter)
 	dump_hal_runtime_trx_mode(sel, adapter);
 }
 
-void _dump_rf_path(void *sel, _adapter *adapter)
+static void _dump_rf_path(void *sel, _adapter *adapter)
 {
 	struct registry_priv *regpriv = &adapter->registrypriv;
 	PHAL_DATA_TYPE hal_data = GET_HAL_DATA(adapter);
@@ -380,7 +380,7 @@ if (IS_HARDWARE_TYPE_8814A(adapter)) {
 	return _SUCCESS;
 }
 
-void _dump_trx_nss(void *sel, _adapter *adapter)
+static void _dump_trx_nss(void *sel, _adapter *adapter)
 {
 	struct registry_priv *regpriv = &adapter->registrypriv;
 	struct hal_spec_t *hal_spec = GET_HAL_SPEC(adapter);
@@ -484,7 +484,7 @@ void rtw_hal_power_off(_adapter *padapter)
 }
 
 
-void rtw_hal_init_opmode(_adapter *padapter)
+static void rtw_hal_init_opmode(_adapter *padapter)
 {
 	NDIS_802_11_NETWORK_INFRASTRUCTURE networkType = Ndis802_11InfrastructureMax;
 	struct  mlme_priv *pmlmepriv = &(padapter->mlmepriv);
@@ -866,7 +866,7 @@ void	rtw_hal_free_recv_priv(_adapter *padapter)
 	padapter->hal_func.free_recv_priv(padapter);
 }
 
-void rtw_sta_ra_registed(_adapter *padapter, struct sta_info *psta)
+static void rtw_sta_ra_registed(_adapter *padapter, struct sta_info *psta)
 {
 	HAL_DATA_TYPE *hal_data = GET_HAL_DATA(padapter);
 
