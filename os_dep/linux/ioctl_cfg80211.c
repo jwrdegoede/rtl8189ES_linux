@@ -418,9 +418,11 @@ u8 rtw_cfg80211_ch_switch_notify(_adapter *adapter, u8 ch, u8 bw, u8 offset, u8 
 	ret = rtw_chbw_to_cfg80211_chan_def(wiphy, &chdef, ch, bw, offset, ht);
 	if (ret != _SUCCESS)
 		goto exit;
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6,3, 0)) && (LINUX_VERSION_CODE < KERNEL_VERSION(6, 9, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 9, 0))
+	cfg80211_ch_switch_notify(adapter->pnetdev, &chdef, 0);
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 3, 0))
 	cfg80211_ch_switch_notify(adapter->pnetdev, &chdef, 0, 0);
-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,19, 2))
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 19, 2))
 	cfg80211_ch_switch_notify(adapter->pnetdev, &chdef, 0);
 #else
 	cfg80211_ch_switch_notify(adapter->pnetdev, &chdef);
@@ -6014,7 +6016,7 @@ static int	cfg80211_rtw_set_channel(struct wiphy *wiphy
 #endif /*#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 6, 0))*/
 
 static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
 	, struct net_device *dev
 	, struct cfg80211_chan_def *chandef
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
