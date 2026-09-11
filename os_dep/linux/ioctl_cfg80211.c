@@ -6661,7 +6661,12 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 	enum nl80211_channel_type channel_type,
 #endif
-	unsigned int duration, u64 *cookie
+	unsigned int duration
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 3, 0))
+	, u64 cookie /* cookie is pre-assigned by cfg80211 */
+#else
+	, u64 *cookie
+#endif
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0))
 	, const u8 *rx_addr
 #endif
@@ -6673,6 +6678,7 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 	struct rtw_wdev_priv *pwdev_priv;
 	struct wifidirect_info *pwdinfo;
 	struct cfg80211_wifidirect_info *pcfg80211_wdinfo;
+	u64 roc_cookie;
 #ifdef CONFIG_CONCURRENT_MODE
 	u8 is_p2p_find = _FALSE;
 #endif
@@ -6707,11 +6713,16 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 	is_p2p_find = (duration < (pwdinfo->ext_listen_interval)) ? _TRUE : _FALSE;
 #endif
 
-	*cookie = ATOMIC_INC_RETURN(&pcfg80211_wdinfo->ro_ch_cookie_gen);
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 3, 0))
+	roc_cookie = cookie; /* cfg80211 assigns the cookie and expects it unchanged */
+#else
+	roc_cookie = ATOMIC_INC_RETURN(&pcfg80211_wdinfo->ro_ch_cookie_gen);
+	*cookie = roc_cookie; /* cfg80211 reads the cookie back through the pointer */
+#endif
 
 	RTW_INFO(FUNC_ADPT_FMT"%s ch:%u duration:%d, cookie:0x%llx\n"
 		, FUNC_ADPT_ARG(padapter), wdev == wiphy_to_pd_wdev(wiphy) ? " PD" : ""
-		, remain_ch, duration, *cookie);
+		, remain_ch, duration, roc_cookie);
 
 	if (rtw_chset_search_ch(adapter_to_chset(padapter), remain_ch) < 0) {
 		RTW_WARN(FUNC_ADPT_FMT" invalid ch:%u\n", FUNC_ADPT_ARG(padapter), remain_ch);
@@ -6789,7 +6800,7 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 
 	rtw_cfg80211_set_is_roch(padapter, _TRUE);
 	pcfg80211_wdinfo->ro_ch_wdev = wdev;
-	pcfg80211_wdinfo->remain_on_ch_cookie = *cookie;
+	pcfg80211_wdinfo->remain_on_ch_cookie = roc_cookie;
 	rtw_cfg80211_set_last_ro_ch_time(padapter);
 	_rtw_memcpy(&pcfg80211_wdinfo->remain_on_ch_channel, channel, sizeof(struct ieee80211_channel));
 	#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
@@ -6797,10 +6808,10 @@ static s32 cfg80211_rtw_remain_on_channel(struct wiphy *wiphy,
 	#endif
 	pcfg80211_wdinfo->restore_channel = rtw_get_oper_ch(padapter);
 
-	p2p_roch_cmd(padapter, *cookie, wdev, channel, pcfg80211_wdinfo->remain_on_ch_type,
+	p2p_roch_cmd(padapter, roc_cookie, wdev, channel, pcfg80211_wdinfo->remain_on_ch_type,
 		duration, RTW_CMDF_WAIT_ACK);
 
-	rtw_cfg80211_ready_on_channel(wdev, *cookie, channel, channel_type, duration, GFP_KERNEL);
+	rtw_cfg80211_ready_on_channel(wdev, roc_cookie, channel, channel_type, duration, GFP_KERNEL);
 exit:
 	return err;
 }
@@ -7266,7 +7277,12 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
 #else
 	struct cfg80211_mgmt_tx_params *params,
 #endif
-	u64 *cookie)
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 3, 0))
+	u64 cookie /* cookie is pre-assigned by cfg80211 */
+#else
+	u64 *cookie
+#endif
+	)
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)) || defined(COMPAT_KERNEL_RELEASE)
 	struct ieee80211_channel *chan = params->chan;
@@ -7299,6 +7315,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
 	struct dvobj_priv *dvobj;
 	struct rtw_wdev_priv *pwdev_priv;
 	struct rf_ctl_t *rfctl;
+	u64 tx_cookie;
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0))
 	#if defined(RTW_DEDICATED_P2P_DEVICE)
@@ -7343,7 +7360,12 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
 	pwdev_priv = adapter_wdev_data(padapter);
 
 	/* cookie generation */
-	*cookie = pwdev_priv->mgmt_tx_cookie++;
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 3, 0))
+	tx_cookie = cookie; /* cfg80211 assigns the cookie and expects it unchanged */
+#else
+	tx_cookie = pwdev_priv->mgmt_tx_cookie++;
+	*cookie = tx_cookie; /* cfg80211 reads the cookie back through the pointer */
+#endif
 
 #ifdef CONFIG_DEBUG_CFG80211
 	RTW_INFO(FUNC_ADPT_FMT"%s len=%zu, ch=%d"
@@ -7366,9 +7388,9 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
 
 	/* indicate ack before issue frame to avoid racing with rsp frame */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
-	rtw_cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, ack, GFP_KERNEL);
+	rtw_cfg80211_mgmt_tx_status(wdev, tx_cookie, buf, len, ack, GFP_KERNEL);
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34) && LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 36))
-	cfg80211_action_tx_status(ndev, *cookie, buf, len, ack, GFP_KERNEL);
+	cfg80211_action_tx_status(ndev, tx_cookie, buf, len, ack, GFP_KERNEL);
 #endif
 
 	frame_styp = le16_to_cpu(((struct rtw_ieee80211_hdr_3addr *)buf)->frame_ctl) & IEEE80211_FCTL_STYPE;
