@@ -3218,3 +3218,9 @@ int hexstr2bin(const char *hex, u8 *buf, size_t len)
 	return 0;
 }
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(6, 1, 0))
+unsigned long long __umulsidi3(unsigned int a, unsigned int b) {
+	return (unsigned long long)a * b;
+}
+EXPORT_SYMBOL(__umulsidi3);
+#endif
