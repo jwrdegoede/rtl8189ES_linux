@@ -409,7 +409,19 @@ static void rtw_get_chbw_from_nl80211_channel_type(struct ieee80211_channel *cha
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 5, 0))
 static bool rtw_cfg80211_allow_ch_switch_notify(_adapter *adapter)
 {
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0))
+	/*
+	 * Station and P2P-client interfaces do not report a channel switch.
+	 * Their only caller is the join path (rtw_chk_start_clnt_join), and
+	 * cfg80211 takes the channel of the joined BSS from the connect or
+	 * roam result. During a roam cfg80211 still holds the old AP as
+	 * current_bss, so a notification from the join path made
+	 * cfg80211_update_assoc_bss_entry() rehash that old entry into the
+	 * BSS rbtree after rtw_cfg80211_unlink_bss() had removed it. The
+	 * entry was then freed while still in the tree, and the next
+	 * cfg80211_bss_expire() crashed in rb_erase() (use-after-free).
+	 * The join path also runs without the wiphy lock that
+	 * cfg80211_ch_switch_notify() requires.
+	 */
 	if ((!MLME_IS_AP(adapter))
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 13, 0))
 		&& (!MLME_IS_ADHOC(adapter))
@@ -420,7 +432,6 @@ static bool rtw_cfg80211_allow_ch_switch_notify(_adapter *adapter)
 #endif
 		)
 		return 0;
-#endif
 	return 1;
 }
 
